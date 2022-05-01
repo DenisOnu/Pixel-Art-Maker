@@ -1,33 +1,32 @@
 // Select color input
+const color = document.getElementById('colorPicker');
+
 // Select size input
-var height, width, color;
+const height = document.getElementById('inputHeight');
+const width = document.getElementById('inputWidth');
+
+const canvas = document.getElementById('pixelCanvas');
+const picker = document.getElementById('sizePicker');
 
 // When size is submitted by the user, call makeGrid()
-$('#sizePicker').submit(function (event){
-  event.preventDefault();
-  height = $('#inputHeight').val();
-  width  = $('#inputWidth').val();
-  makeGrid(height, width);
+picker.addEventListener('submit', function(e) {
+    canvas.innerHTML = '';
+    e.preventDefault();
+    makeGrid();
 });
-  
-  function makeGrid(a,b) {
+
+function makeGrid() {
     // Your code goes here!
-    $('tr').remove();
-    for(var i=1; i<=a; i++) {
-        $('#pixelCanvas').append('<tr id=table'+ i + '></tr>');
-        for(var j=1; j<=b; j++) {
-            $('#table' + i).append('<td></td>');
+    for(var i = 0; i < height.value; i++) {
+        const row = canvas.insertRow(0);
+        for (var j = 0; j < width.value; j++) {
+            row.insertCell(0);
         }
     }
-    //to add color 
-    $('td').click(function addColor() {
-      color = $('#colorPicker').val();
-      if($(this).attr('style')) {
-        $(this).removeAttr('style');
-      }
-      else {
-        $(this).attr('style','background-color:'+color);
-      }
-    })
-    
-  }
+};
+//to add color to canvas
+canvas.addEventListener('click', function(e){
+    if(e.target.nodeName === 'TD') {
+        e.target.style.backgroundColor = color.value;
+    }
+});
